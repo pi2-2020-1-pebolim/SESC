@@ -47,4 +47,15 @@ def _CEN(i,DM):
         DM = "000"
         i = i
     return i,DM
-    
+ 
+def _MOV(i,PASS):
+    if i > PASS/2:
+        DM = "011"
+        i = i-1
+    elif i < PASS/2:
+        DM = "001"
+        i = i+1
+    else:
+        DM = "000"
+        i = i
+    return i,DM

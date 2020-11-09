@@ -1,7 +1,6 @@
 import json
 import base64
-from ttdraw import _DRAW
-from ttcontrol import _CONTROL
+from SESCcontrol import _CONTROL
 
 def StatusUpdateEvent():
     global Totron64,yGOL,aGOL,yDEF,aDEF,yMEI,aMEI,yATA,aATA
@@ -25,14 +24,12 @@ def RegisterEvent():
                                         "resolution": [int, int]}} # comprimento e largura em pixels
     return json.dumps(str(_RegisterEvent))
 
-
-
 print("Register Event: ")
 print(RegisterEvent())
 while True:
     global Totron64,yGOL,aGOL,yDEF,aDEF,yMEI,aMEI,yATA,aATA
     
-    ActionEvent = input("Action Event: ")                          #{"evenType":"action", "desiredState":{"laneID":1,"position":10.5,"kick":"True"}}
+    ActionEvent = input("Action Event: ")                          #{"evenType":"action", "desiredState":{"laneID":0,"position":0,"kick":"True"}}
     A = json.loads(ActionEvent)["desiredState"]
     
     [yGOL,aGOL,yDEF,aDEF,yMEI,aMEI,yATA,aATA] = _CONTROL(A["laneID"],-A["position"],A["kick"])

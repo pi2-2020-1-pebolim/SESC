@@ -91,9 +91,9 @@ def F_MEI(Y,A):
     
 def F_ATA(Y,A):
     glColor4d(0, 0, 255, 126)
-    rect(hasATA               , altCamp/2-Y-yJog/3-disATA, math.sin(A*math.pi/180)*45, yJog*2/3)
-    rect(hasATA               , altCamp/2-Y-yJog/3       , math.sin(A*math.pi/180)*45, yJog*2/3)
-    rect(hasATA               , altCamp/2-Y-yJog/3+disATA, math.sin(A*math.pi/180)*45, yJog*2/3)
+    rect(hasATA               , altCamp/2-Y-yJog/3-disATA, -math.sin(A*math.pi/180)*45, yJog*2/3)
+    rect(hasATA               , altCamp/2-Y-yJog/3       , -math.sin(A*math.pi/180)*45, yJog*2/3)
+    rect(hasATA               , altCamp/2-Y-yJog/3+disATA, -math.sin(A*math.pi/180)*45, yJog*2/3)
     rect(hasATA-xJog/2        , altCamp/2-Y-yJog/2-disATA, xJog               , yJog    )
     rect(hasATA-xJog/2        , altCamp/2-Y-yJog/2       , xJog               , yJog    )
     rect(hasATA-xJog/2        , altCamp/2-Y-yJog/2+disATA, xJog               , yJog    )

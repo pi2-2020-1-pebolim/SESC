@@ -1,5 +1,5 @@
-from ttdraw import _DRAW
-from ttfunc import _FCM,_FCE,_PASS,_MIN,_MAX,_CEN
+from SESCdraw import _DRAW
+from SESCfunc import _FCM,_FCE,_PASS,_MIN,_MAX,_CEN,_MOV
 from pyfirmata import ArduinoMega, util
 
 MESA = "SIMULACAO"
@@ -50,9 +50,9 @@ FC_pin_MATA_MAX = mega.get_pin('d:52:i')
 FC_pin_EATA     = mega.get_pin('d:53:i')
 
 def MESA():
-    global aPASS,yPASS,yJOG,mGOL,mDEF,mMEI,mATA
+    global aPASS,yPASS,yJOG,mGOL,mDEF,mMEI,mATA,ANGLE
     
-    aPASS = 0.18
+    aPASS = 0.53
     yPASS = 0.53
 
     yJOG   = 40
@@ -61,6 +61,8 @@ def MESA():
     mDEF = 135
     mMEI = 60
     mATA = 120
+    
+    ANGLE = 90
 
 def CONFIG():
     global yGOL,aGOL,yDEF,aDEF,yMEI,aMEI,yATA,aATA
@@ -254,49 +256,157 @@ def PASS ():
     aATA = _PASS(aATA,DM_RATA,aPASS) 
     
     _DRAW(yGOL,aGOL,yDEF,aDEF,yMEI,aMEI,yATA,aATA)
-    
-def _MOV(i,PASS):
-    if i > PASS/2:
-        DM = "011"
-        i = i-1
-    elif i < PASS/2:
-        DM = "001"
-        i = i+1
-    else:
-        DM = "000"
-        i = i
-    return i,DM
-    
+ 
 def MOVER(ID,yPOS,CHUT):
     global yPASS,yGOL,DM_YGOL,yDEF,DM_YDEF,yMEI,DM_YMEI,yATA,DM_YATA
+    global aPASS,aGol,DM_RGOL,aDEF,DM_RDEF,aMEI,DM_RMEI,aATA,DM_RATA,ANGLE
+    i = 0
+    j = 0
+    k = 0
+    l = 0
+    m = 0
+    n = 0
+    if CHUT == "True":
+        j = int(-ANGLE/aPASS)
+        k = int((2*ANGLE)/aPASS)
+        l = int(-ANGLE/aPASS)
+        m = int(ANGLE/aPASS)
+        n = int(-ANGLE/aPASS)
     if ID == 0: 
         i = int((yPOS-yGOL)/yPASS)
         while i != 0:
             [i,DM_YGOL] = _MOV(i,yPASS)
+            if j != 0:
+                [j,DM_RGOL] = _MOV(j,aPASS)
+                [m,DM_RATA] = _MOV(m,aPASS)
+                DM_RDEF = DM_RATA
+                DM_RMEI = DM_RATA
             PASS()
-        DM_YGOL = "000"
+            DM_YGOL = "000"
+            DM_RGOL = "000"
+            DM_RDEF = "000"
+            DM_RMEI = "000"
+            DM_RATA = "000"
+        while j != 0:
+            if CHUT == "True":
+                [j,DM_RGOL] = _MOV(j,aPASS)
+                [m,DM_RATA] = _MOV(m,aPASS)
+                DM_RDEF = DM_RATA
+                DM_RMEI = DM_RATA
+            PASS()
+            DM_RGOL = "000"
+            DM_RDEF = "000"
+            DM_RMEI = "000"
+            DM_RATA = "000"
+        while k != 0:
+            if CHUT == "True":
+                [k,DM_RGOL] = _MOV(k,aPASS)
+            PASS()
+            DM_RGOL = "000"
+        while l != 0:
+            if CHUT == "True":
+                [l,DM_RGOL] = _MOV(l,aPASS)
+                [n,DM_RATA] = _MOV(n,aPASS)
+                DM_RDEF = DM_RATA
+                DM_RMEI = DM_RATA
+            PASS()
+            DM_RGOL = "000"
+            DM_RDEF = "000"
+            DM_RMEI = "000"
+            DM_RATA = "000"
     elif ID == 1: 
         i = int((yPOS-yDEF)/yPASS)
         while i != 0:
             [i,DM_YDEF] = _MOV(i,yPASS)
+            if j != 0:
+                [j,DM_RDEF] = _MOV(j,aPASS)
+                [m,DM_RATA] = _MOV(m,aPASS)
+                DM_RMEI = DM_RATA
             PASS()
-        DM_YDEF = "000"
+            DM_YDEF = "000"
+            DM_RDEF = "000"
+            DM_RMEI = "000"
+            DM_RATA = "000"
+        while j != 0:
+            if CHUT == "True":
+                [j,DM_RDEF] = _MOV(j,aPASS)
+                [m,DM_RATA] = _MOV(m,aPASS)
+                DM_RMEI = DM_RATA
+            PASS()
+            DM_RDEF = "000"
+            DM_RMEI = "000"
+            DM_RATA = "000"
+        while k != 0:
+            if CHUT == "True":
+                [k,DM_RDEF] = _MOV(k,aPASS)
+            PASS()
+            DM_RDEF = "000"
+        while l != 0:
+            if CHUT == "True":
+                [l,DM_RDEF] = _MOV(l,aPASS)
+                [n,DM_RATA] = _MOV(n,aPASS)
+                DM_RMEI = DM_RATA
+            PASS()
+            DM_RDEF = "000"
+            DM_RMEI = "000"
+            DM_RATA = "000"
     elif ID == 2: 
         i = int((yPOS-yMEI)/yPASS)
         while i != 0:
             [i,DM_YMEI] = _MOV(i,yPASS)
+            if j != 0:
+                [j,DM_RMEI] = _MOV(j,aPASS)
+                [m,DM_RATA] = _MOV(m,aPASS)
             PASS()
-        DM_YMEI = "000"
+            DM_YMEI = "000"
+            DM_RMEI = "000"
+            DM_RATA = "000"
+        while j != 0:
+            if CHUT == "True":
+                [j,DM_RMEI] = _MOV(j,aPASS)
+                [m,DM_RATA] = _MOV(m,aPASS)
+            PASS()
+            DM_RMEI = "000"
+            DM_RATA = "000"
+        while k != 0:
+            if CHUT == "True":
+                [k,DM_RMEI] = _MOV(k,aPASS)
+            PASS()
+            DM_RMEI = "000"
+        while l != 0:
+            if CHUT == "True":
+                [l,DM_RMEI] = _MOV(l,aPASS)
+                [n,DM_RATA] = _MOV(n,aPASS)
+            PASS()
+            DM_RMEI = "000"
+            DM_RATA = "000"
     elif ID == 3: 
         i = int((yPOS-yATA)/yPASS)
         while i != 0:
             [i,DM_YATA] = _MOV(i,yPASS)
+            if j != 0:
+                [j,DM_RATA] = _MOV(j,aPASS)
             PASS()
-        DM_YATA = "000"
+            DM_YATA = "000"
+            DM_RATA = "000"
+        while j != 0:
+            if CHUT == "True":
+                [j,DM_RATA] = _MOV(j,aPASS)
+            PASS()
+            DM_RATA = "000"
+        while k != 0:
+            if CHUT == "True":
+                [k,DM_RATA] = _MOV(k,aPASS)
+            PASS()
+            DM_RATA = "000"
+        while l != 0:
+            if CHUT == "True":
+                [l,DM_RATA] = _MOV(l,aPASS)
+            PASS()
+            DM_RATA = "000"
 
 def _CONTROL(ID,yPOS,CHUT):
     global INICIAR,MAPEAMENTO,yPASS,aPASS,yGOL,aGOL,yDEF,aDEF,yMEI,aMEI,yATA,aATA,DM_YGOL,DM_YDEF,DM_YMEI,DM_YATA
-    
     while INICIAR == True:
         MESA()
         CONFIG()
