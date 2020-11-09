@@ -7,7 +7,7 @@ O arquivo SESCevent.py é a a parte do sistema que é integrada a IA, ela é res
 
 No arquivo SESCcontrol.py, ele recebe o ActionEvent e primeiro é verificado se a mesa já foi inicializada, caso não, o programa habilita as entradas e saídas do Arduino, seta as configurações iniciais da mesa, coletadas previamente, e envia RegisterEvent para a IA. Para iniciar a simulação, dados aleatórios sobre a posição de cada jogador é gerado e depois sincronizado com a mesa física a partir do mapeamento. Depois de inicializar a mesa, é preciso mostrar o campo do jogo com os dados iniciados. 
 
-Ainda na inicialização, o mapeamento eletrônico da mesa é feito, e para isso, é necessário fazer com que todos os jogadores estejam em pé e indo para os pontos máximos da mesa, até que os sensores de fim de curso sejam ativados, isso será realizado para cada haste, Figura \ref{fig:max}, ainda nessa parte, a simulação é sincronizada com a mesa física.
+Ainda na inicialização, o mapeamento eletrônico da mesa é feito, e para isso, é necessário fazer com que todos os jogadores estejam em pé e indo para os pontos máximos da mesa, até que os sensores de fim de curso sejam ativados, isso será realizado para cada haste, ainda nessa parte, a simulação é sincronizada com a mesa física.
 
 Agora, o programa coloca todos os jogadores nos pontos mínimos contando a quantidade de passos que foram dados. 
 
